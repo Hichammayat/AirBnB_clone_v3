@@ -32,8 +32,11 @@ def del_state(state_id):
     state = [obj.to_dict() for obj in states if obj.id == state_id]
     if state == []:
         abort(404)
-    storage.delete(state)
-    storage.save()
+    state.remove(state[0])
+    for obj in states:
+        if obj.id == state_id:
+            storage.delete(obj)
+            storage.save()
     return jsonify({}), 200
 
 
